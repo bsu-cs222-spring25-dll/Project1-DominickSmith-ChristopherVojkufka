@@ -9,6 +9,7 @@ public class WikipediaAPITest {
 
     @Test
     void testWikipediaApiIsReachable() throws Exception {
+        @SuppressWarnings("deprecation")
         URL url = new URL("https://en.wikipedia.org/w/api.php");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
