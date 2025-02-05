@@ -7,6 +7,7 @@ import java.net.URL;
 
 public class WikipediaAPITest {
 
+    //fails if connection is interrupted
     @Test
     void testWikipediaApiIsReachable() throws Exception {
         @SuppressWarnings("deprecation")
@@ -17,5 +18,6 @@ public class WikipediaAPITest {
         int responseCode = connection.getResponseCode();
         assertEquals(200, responseCode, "Wikipedia API is not reachable");
     }
+
 }
 
