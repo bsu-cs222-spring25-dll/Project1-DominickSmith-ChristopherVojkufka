@@ -13,12 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonFileTest {
 
+    //tests accessing a json
     @Test
     void testJsonAccess() {
-        String jsonData = readSampleJsonAsString();
-        assertTrue(jsonData != null);
+       String jsonData = readSampleJsonAsString();
+       assertTrue(jsonData != null);
     }
 
+    //counts json revisions. expected must be equal to actual revisions
     @Test
     void testJsonCountRevisions() {
         String jsonData = readSampleJsonAsString();
@@ -26,18 +28,22 @@ public class JsonFileTest {
         Assertions.assertEquals(4, revisions.size());
     }
 
+    //reads the json file if it exists
     private String readSampleJsonAsString() {
         try (InputStream sampleFile = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("sample.json")) {
             return new String(Objects.requireNonNull(sampleFile).readAllBytes(), Charset.defaultCharset());
-        } catch (IOException | NullPointerException e) {
-            System.err.print("File not found.");
+        } catch (IOException e) {
+            System.err.print("No input was prompted.");
+        } catch (NullPointerException e) {
+            System.err.print("File not found");
         }
         return null;
     }
 
+    //gets revisions from file
     private JSONArray getRevisionsFromJson(String jsonData) {
-        return null;
+        return JsonPath.read(jsonData, "$..revisions[*]");
     }
 
 }

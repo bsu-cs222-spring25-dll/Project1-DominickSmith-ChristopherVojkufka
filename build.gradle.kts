@@ -14,6 +14,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("com.jayway.jsonpath:json-path:2.8.0")
     testImplementation("net.minidev:json-smart:2.4.10")
+    testImplementation("ch.qos.logback:logback-classic:1.4.14")
 }
 
 tasks.test {
