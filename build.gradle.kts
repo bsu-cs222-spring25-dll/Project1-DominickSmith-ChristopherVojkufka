@@ -12,6 +12,8 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("com.jayway.jsonpath:json-path:2.8.0")
+    testImplementation("net.minidev:json-smart:2.4.10")
 }
 
 tasks.test {
