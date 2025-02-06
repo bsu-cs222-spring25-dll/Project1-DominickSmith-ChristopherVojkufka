@@ -24,8 +24,8 @@ public class JsonFileTest {
     @Test
     void testJsonCountRevisions() {
         String jsonData = readSampleJsonAsString();
-        JSONArray revisions = getRevisionsFromJson(jsonData);
-        Assertions.assertEquals(4, revisions.size());
+        JSONArray articleRevisions = getRevisionsFromJson(jsonData);
+        Assertions.assertEquals(4, articleRevisions.size());
     }
 
     //reads the json file if it exists
@@ -34,7 +34,7 @@ public class JsonFileTest {
                 .getResourceAsStream("sample.json")) {
             return new String(Objects.requireNonNull(sampleFile).readAllBytes(), Charset.defaultCharset());
         } catch (IOException e) {
-            System.err.print("No input was prompted.");
+            System.err.print("No input was found.");
         } catch (NullPointerException e) {
             System.err.print("File not found");
         }

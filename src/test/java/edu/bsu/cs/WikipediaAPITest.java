@@ -19,5 +19,12 @@ public class WikipediaAPITest {
         assertEquals(200, responseCode, "Wikipedia API is not reachable");
     }
 
+    @Test
+    void testFetchWikipediaRevisions() {
+        WikipediaAPI api = new WikipediaAPI();
+        String jsonData = api.fetchWikipediaRevisions("ExampleArticle");
+        assertNotNull(jsonData, "API should return JSON data.");
+    }
+
 }
 
