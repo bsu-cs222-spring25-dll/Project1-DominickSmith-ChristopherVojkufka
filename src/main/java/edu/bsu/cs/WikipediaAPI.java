@@ -1,5 +1,6 @@
 package edu.bsu.cs;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -10,7 +11,7 @@ public class WikipediaAPI {
 
     //https://en.wikipedia.org/wiki/Rick_Astley
     //Article Name: Rick Astley
-    public static void main() {
+    public static void main() throws IOException {
         URLConnection connection = connectToWikipedia(articleName);
         String jsonData = readJsonAsString(connection);
         printJSON(jsonData);
@@ -28,7 +29,16 @@ public class WikipediaAPI {
         return connection;
     }
 
+    public static String readJsonAsString(URLConnection connection) throws IOException {
+        return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
+    }
+
+    private static void printJSON(String jsonData) {
+        System.out.print(jsonData);
+    }
+
     public String fetchWikipediaRevisions(String exampleArticle) {
         return null;
+        //put this in testAPI
     }
 }
