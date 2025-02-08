@@ -12,16 +12,18 @@ public class WikipediaAPI {
     //Article Name: Rick Astley
 
     //this needs to go in main class
-    public static void main() throws IOException {
+
+    public String fetchWikipediaRevisions(String input) throws IOException {
+        String articleName = input;
         URLConnection connection = connectToWikipedia(articleName);
         String jsonData = readJsonAsString(connection);
-        printJSON(jsonData);
+        System.out.print(jsonData);
+        return jsonData;
     }
 
-    private static URLConnection connectToWikipedia(String articleName) throws Exception {
-        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
-                + URLEncoder.encode(articleName, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+
+    private static URLConnection connectToWikipedia(String articleName) throws IOException {
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
         connection.setRequestProperty("User-Agent",
@@ -34,12 +36,4 @@ public class WikipediaAPI {
         return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
     }
 
-    private static void printJSON(String jsonData) {
-        System.out.print(jsonData);
-    }
-
-    public String fetchWikipediaRevisions(String exampleArticle) {
-        return null;
-        //put this in testAPI
-    }
 }

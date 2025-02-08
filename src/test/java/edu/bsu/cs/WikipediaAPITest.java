@@ -20,9 +20,9 @@ public class WikipediaAPITest {
     }
 
     @Test
-    void testFetchWikipediaRevisions() {
+    void testFetchWikipediaRevisions() throws Exception {
         WikipediaAPI api = new WikipediaAPI();
-        String jsonData = api.fetchWikipediaRevisions("ExampleArticle");
+        String jsonData = api.fetchWikipediaRevisions("Example Article");
         assertNotNull(jsonData, "API should return JSON data.");
     }
 
