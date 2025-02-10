@@ -21,8 +21,9 @@ public class WikipediaAPITest {
     @Test
     void testFetchWikipediaRevisions() throws Exception {
         WikipediaAPI api = new WikipediaAPI();
-        String jsonData = api.fetchWikipediaRevisions("Example Article");
+        String jsonData = api.fetchWikipediaRevisions("Rick Astley");
         assertNotNull(jsonData, "API should return JSON data.");
+        assertTrue(jsonData.contains("query"), "JSON should contain 'query' key.");
     }
 
 }
