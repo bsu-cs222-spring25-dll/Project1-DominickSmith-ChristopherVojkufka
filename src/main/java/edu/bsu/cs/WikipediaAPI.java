@@ -6,15 +6,14 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.net.URLEncoder;
 
+import static edu.bsu.cs.JSONParser.readJsonAsString;
+
 public class WikipediaAPI {
 
     //https://en.wikipedia.org/wiki/Rick_Astley
     //Article Name: Rick Astley
 
-    //this needs to go in main class
-
-    public String fetchWikipediaRevisions(String input) throws IOException {
-        String articleName = input;
+    public String fetchWikipediaRevisions(String articleName) throws IOException {
         URLConnection connection = connectToWikipedia(articleName);
         String jsonData = readJsonAsString(connection);
         System.out.print(jsonData);
@@ -23,7 +22,9 @@ public class WikipediaAPI {
 
 
     private static URLConnection connectToWikipedia(String articleName) throws IOException {
-        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
+        @SuppressWarnings("deprecation")
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
         connection.setRequestProperty("User-Agent",
@@ -32,8 +33,5 @@ public class WikipediaAPI {
         return connection;
     }
 
-    public static String readJsonAsString(URLConnection connection) throws IOException {
-        return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
-    }
 
 }
