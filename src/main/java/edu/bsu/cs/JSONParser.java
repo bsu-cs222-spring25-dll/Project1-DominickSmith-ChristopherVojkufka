@@ -13,7 +13,11 @@ public class JSONParser {
     }
 
     public static JSONArray extractRevisions(String jsonData) {
-        return JsonPath.read(jsonData, "$..revisions[*]");
-
+            if (jsonData.contains("redirects")) {
+                String redirectedArticle = JsonPath.read(jsonData, "$.query.redirects[0].to").toString();
+                System.out.println("Redirected to " + redirectedArticle);
+            }
+            return JsonPath.read(jsonData, "$..revisions[*]");
+        }
     }
-}
+

@@ -5,5 +5,4 @@ public class Main {
         UI userInterface = new UI();
         userInterface.start();
     }
-
 }
