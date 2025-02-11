@@ -1,5 +1,6 @@
 package edu.bsu.cs;
 
+import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
 import java.util.Scanner;
@@ -22,6 +23,16 @@ public class UI {
         }
 
         printRevisions(revisions);
+    }
+
+    private void printRevisions(JSONArray revisions) {
+        int count = 1;
+        for (Object revision : revisions) {
+            String time = JsonPath.read(revision, "$.timestamp").toString();
+            String user = JsonPath.read(revision, "$.user").toString();
+            System.out.print(count + " " + time + " " + user);
+            count++;
+        }
     }
 
     public String getArticleName(){
