@@ -2,6 +2,7 @@ package edu.bsu.cs;
 
 import net.minidev.json.JSONArray;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -21,8 +22,19 @@ public class UI {
             System.exit(1);
         }
 
+        printRevisions(revisions);
+
+    }
+
+    private void printRevisions(JSONArray revisions) {
         RevisionParser revisionParser = new RevisionParser();
-        revisionParser.getRevisions(revisions);
+
+        System.out.println("Total revisions retrieved: " + revisions.size());
+
+        List<String> parsedRevisions = revisionParser.getRevisions(revisions);
+        for (String revision : parsedRevisions) {
+            System.out.println(revision); // Prints each revision on a new line
+        }
     }
 
 

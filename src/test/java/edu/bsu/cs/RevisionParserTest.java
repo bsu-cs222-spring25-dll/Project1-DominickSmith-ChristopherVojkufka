@@ -31,7 +31,7 @@ public class RevisionParserTest {
         String jsonContent = new String(Files.readAllBytes(Paths.get("src/test/resources/sample.json")));
         JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions");
 
-        JSONArray revisions = (JSONArray) sampleRevisions.get(0);
+        JSONArray revisions = (JSONArray) sampleRevisions.getFirst();
 
         List<String> revisionList = parser.getRevisions(revisions);
 
