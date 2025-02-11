@@ -1,5 +1,7 @@
 package edu.bsu.cs;
 
+import net.minidev.json.JSONArray;
+
 import java.util.Scanner;
 
 public class UI {
@@ -8,7 +10,18 @@ public class UI {
 
     public void start () throws Exception {
         String articleName = getArticleName();
-        api.fetchWikipediaRevisions(articleName);
+        if(articleName == null || articleName.isEmpty()) {
+            System.err.println("Error: No article name provided.");
+            System.exit(1); //Exit if no name is provided
+        }
+
+        JSONArray revisions = api.fetchWikipediaRevisions(articleName);
+        if(revisions == null || revisions.isEmpty()) {
+            System.err.print("Error: No revisions found or invalid article.");
+            System.exit(1);
+        }
+
+        printRevisions(revisions);
     }
 
     public String getArticleName(){
