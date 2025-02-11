@@ -19,10 +19,13 @@ public class WikipediaAPI {
             return extractRevisions(jsonData);
     }
 
+    public static String getEncodedUrl(String articleName) {
+        return "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
+    }
 
     private static URLConnection connectToWikipedia(String articleName) throws IOException {
-        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
+        String encodedUrlString = getEncodedUrl(articleName);
         @SuppressWarnings("deprecation")
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
