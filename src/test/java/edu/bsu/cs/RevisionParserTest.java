@@ -31,11 +31,14 @@ public class RevisionParserTest {
         String jsonContent = new String(Files.readAllBytes(Paths.get("src/test/resources/sample.json")));
         JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions");
 
-        List<String> revisions = parser.getRevisions(sampleRevisions.getFirst());
-        assertEquals(4, revisions.size());
-        assertEquals("1  2023-09-02T15:05:04Z  Freefry", revisions.get(0));
-        assertEquals("2  2023-09-02T15:06:03Z  Freefry", revisions.get(1));
-        assertEquals("3  2023-09-07T17:21:48Z  ModernDayTrilobite", revisions.get(2));
-        assertEquals("4  2023-09-07T18:34:43Z  Miklogfeather", revisions.get(3));
+        JSONArray revisions = (JSONArray) sampleRevisions.get(0);
+
+        List<String> revisionList = parser.getRevisions(revisions);
+
+        assertEquals(4, revisionList.size());
+        assertEquals("1  2023-09-02T15:05:04Z  Freefry\n", revisionList.get(0));
+        assertEquals("2  2023-09-02T15:06:03Z  Freefry\n", revisionList.get(1));
+        assertEquals("3  2023-09-07T17:21:48Z  ModernDayTrilobite\n", revisionList.get(2));
+        assertEquals("4  2023-09-07T18:34:43Z  Miklogfeather\n", revisionList.get(3));
     }
 }

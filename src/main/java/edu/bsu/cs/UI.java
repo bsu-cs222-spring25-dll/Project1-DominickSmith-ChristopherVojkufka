@@ -1,6 +1,5 @@
 package edu.bsu.cs;
 
-import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
 import java.util.Scanner;
@@ -22,20 +21,10 @@ public class UI {
             System.exit(1);
         }
 
-        printRevisions(revisions);
+        RevisionParser revisionParser = new RevisionParser();
+        revisionParser.getRevisions(revisions);
     }
 
-    private void printRevisions(JSONArray revisions) {
-        int count = 1;
-        int maxRevisions = Math.min(revisions.size(), 21);
-
-        for (int i = revisions.size() - 1; i >= revisions.size() - maxRevisions; i--) {
-            String time = JsonPath.read(revisions.get(i), "$..timestamp").toString().replaceAll("[\\[\\]\"]", "");
-            String user = JsonPath.read(revisions.get(i), "$..user").toString().replaceAll("[\\[\\]\"]", "");
-            System.out.print(count + " " + time + " " + user);
-            count++;
-        }
-    }
 
     public String getArticleName(){
         System.out.println("Please enter the name of a Wikipedia article: ");

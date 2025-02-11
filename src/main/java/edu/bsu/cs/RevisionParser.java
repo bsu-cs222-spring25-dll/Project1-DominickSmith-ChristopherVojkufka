@@ -5,6 +5,7 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RevisionParser {
@@ -13,7 +14,17 @@ public class RevisionParser {
         return user.getFirst().toString();
     }
 
-    public List<String> getRevisions(Object o) {
-        return null;
+    public List<String> getRevisions(JSONArray revisions) {
+        List<String> revisionList = new ArrayList<>();
+        int count = 1;
+        int maxRevisions = Math.min(revisions.size(), 21);
+
+        for (int i = revisions.size() - 1; i >= revisions.size() - maxRevisions; i--) {
+            String time = JsonPath.read(revisions.get(i), "$..timestamp").toString().replaceAll("[\\[\\]\"]", "");
+            String user = JsonPath.read(revisions.get(i), "$..user").toString().replaceAll("[\\[\\]\"]", "");
+            revisionList.add(count + "  " + time + "  " + user + "\n");
+            count++;
+        }
+        return revisionList;
     }
 }
