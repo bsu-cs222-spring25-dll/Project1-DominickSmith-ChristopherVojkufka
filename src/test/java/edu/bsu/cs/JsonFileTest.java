@@ -9,18 +9,17 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class JsonFileTest {
 
-    //tests accessing a json
     @Test
     void testJsonAccess() {
        String jsonData = readSampleJsonAsString();
-       assertTrue(jsonData != null);
+        assertNotNull(jsonData);
     }
 
-    //counts json revisions. expected must be equal to actual revisions
     @Test
     void testJsonCountRevisions() {
         String jsonData = readSampleJsonAsString();
@@ -28,7 +27,6 @@ public class JsonFileTest {
         Assertions.assertEquals(4, articleRevisions.size());
     }
 
-    //reads the json file if it exists
     private String readSampleJsonAsString() {
         try (InputStream sampleFile = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("sample.json")) {
@@ -41,7 +39,6 @@ public class JsonFileTest {
         return null;
     }
 
-    //gets revisions from file
     private JSONArray getRevisionsFromJson(String jsonData) {
         return JsonPath.read(jsonData, "$..revisions[*]");
     }
