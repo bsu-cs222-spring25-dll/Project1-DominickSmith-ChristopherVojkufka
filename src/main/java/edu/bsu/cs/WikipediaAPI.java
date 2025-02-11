@@ -14,9 +14,14 @@ import static edu.bsu.cs.JSONParser.readJsonAsString;
 public class WikipediaAPI {
 
     public JSONArray fetchWikipediaRevisions(String articleName) throws IOException {
-        URLConnection connection = connectToWikipedia(articleName);
-        String jsonData = readJsonAsString(connection);
-        return extractRevisions(jsonData);
+        if(articleName.isEmpty()) {
+            System.out.print("Must enter a searchable article name.");
+        } else {
+            URLConnection connection = connectToWikipedia(articleName);
+            String jsonData = readJsonAsString(connection);
+            return extractRevisions(jsonData);
+        }
+        return null;
     }
 
 
@@ -31,6 +36,4 @@ public class WikipediaAPI {
         connection.connect();
         return connection;
     }
-
-
 }

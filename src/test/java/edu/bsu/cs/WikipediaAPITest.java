@@ -25,7 +25,7 @@ public class WikipediaAPITest {
         WikipediaAPI api = new WikipediaAPI();
         JSONArray jsonData = api.fetchWikipediaRevisions("Rick Astley");
         assertNotNull(jsonData, "API should return JSON data.");
-        assertTrue(jsonData.contains("query"), "JSON should contain 'query' key.");
+        assertFalse(jsonData.isEmpty(), "JSON should contain revision data.");
     }
 
 }

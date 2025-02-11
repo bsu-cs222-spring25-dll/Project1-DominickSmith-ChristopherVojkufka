@@ -13,6 +13,6 @@ public class UI {
 
     public String getArticleName(){
         System.out.println("Please enter the name of a Wikipedia article: ");
-        return scanner.next();
+        return scanner.nextLine(); //allows multi-word article names
     }
 }
