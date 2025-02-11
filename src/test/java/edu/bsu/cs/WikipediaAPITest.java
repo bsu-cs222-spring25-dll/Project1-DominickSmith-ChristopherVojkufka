@@ -1,7 +1,9 @@
 package edu.bsu.cs;
 
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -21,7 +23,7 @@ public class WikipediaAPITest {
     @Test
     void testFetchWikipediaRevisions() throws Exception {
         WikipediaAPI api = new WikipediaAPI();
-        String jsonData = api.fetchWikipediaRevisions("Rick Astley");
+        JSONArray jsonData = api.fetchWikipediaRevisions("Rick Astley");
         assertNotNull(jsonData, "API should return JSON data.");
         assertTrue(jsonData.contains("query"), "JSON should contain 'query' key.");
     }

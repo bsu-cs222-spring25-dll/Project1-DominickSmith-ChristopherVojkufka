@@ -1,23 +1,22 @@
 package edu.bsu.cs;
 
+import net.minidev.json.JSONArray;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.net.URLEncoder;
 
+import static edu.bsu.cs.JSONParser.extractRevisions;
 import static edu.bsu.cs.JSONParser.readJsonAsString;
 
 public class WikipediaAPI {
 
-    //https://en.wikipedia.org/wiki/Rick_Astley
-    //Article Name: Rick Astley
-
-    public String fetchWikipediaRevisions(String articleName) throws IOException {
+    public JSONArray fetchWikipediaRevisions(String articleName) throws IOException {
         URLConnection connection = connectToWikipedia(articleName);
         String jsonData = readJsonAsString(connection);
-        System.out.print(jsonData);
-        return jsonData;
+        return extractRevisions(jsonData);
     }
 
 
