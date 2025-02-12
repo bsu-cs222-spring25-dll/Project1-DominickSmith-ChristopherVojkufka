@@ -2,7 +2,6 @@ package edu.bsu.cs;
 
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
 
         String jsonContent = new String(Files.readAllBytes(Paths.get("src/test/resources/sample.json")));
-        JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions");
+        JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions[*]");
 
         JSONArray revisions = (JSONArray) sampleRevisions.getFirst();
 

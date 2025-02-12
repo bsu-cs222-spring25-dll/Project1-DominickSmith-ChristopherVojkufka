@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RevisionParser {
     public String parse(InputStream testDataStream) throws IOException {
-        JSONArray user = JsonPath.read(testDataStream, "$..user");
+        JSONArray user = JsonPath.read(testDataStream, "$.user");
         return user.getFirst().toString();
     }
 
@@ -18,12 +18,13 @@ public class RevisionParser {
         List<String> revisionList = new ArrayList<>();
         int count = 1;
         int maxRevisions = Math.min(revisions.size(), 21);
+        int startIndex = revisions.size() - maxRevisions;
 
-        for (int i = revisions.size() - 1; i >= revisions.size() - maxRevisions; i--) {
+        for (int i = revisions.size() - 1; i >= startIndex; i--) {
             String time = JsonPath.read(revisions.get(i), "$..timestamp").toString();
             String user = JsonPath.read(revisions.get(i), "$..user").toString();
 
-            revisionList.add(count + "  " + time + "  " + user + "\n");
+            revisionList.add(count + "  " + time + "  " + user);
             count++;
         }
         return revisionList;

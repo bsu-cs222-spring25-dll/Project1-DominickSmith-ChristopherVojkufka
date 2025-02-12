@@ -21,7 +21,7 @@ public class WikipediaAPI {
 
     public static String getEncodedUrl(String articleName) {
         return "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=4&redirects";
+                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=21&redirects";
     }
 
     private static URLConnection connectToWikipedia(String articleName) throws IOException {
