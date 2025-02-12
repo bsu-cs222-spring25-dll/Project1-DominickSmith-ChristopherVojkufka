@@ -18,7 +18,10 @@ public class UI {
         JSONArray revisions = api.fetchWikipediaRevisions(articleName);
         checkRevisionsExist(revisions);
 
-        checkArticleRedirection();
+        String redirectedArticle = api.getRedirectedArticle();
+        if(redirectedArticle != null) {
+            System.out.println("Redirected to " + redirectedArticle);
+        }
         printRevisions(revisions);
     } catch (IOException e) {
             System.err.println(e.getMessage());

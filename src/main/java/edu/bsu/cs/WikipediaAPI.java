@@ -14,6 +14,7 @@ import static edu.bsu.cs.JSONParser.readJsonAsString;
 public class WikipediaAPI {
 
     private final WikipediaRedirectHandler redirectHandler = new WikipediaRedirectHandler();
+    private String redirectedArticle = null;
 
     public JSONArray fetchWikipediaRevisions(String articleName) throws IOException {
         try {
@@ -27,11 +28,18 @@ public class WikipediaAPI {
             JSONArray revisions = extractRevisions(jsonData);
 
             redirectHandler.checkRedirection(jsonData);
+            if(redirectHandler.isRedirected()) {
+                redirectedArticle = redirectHandler.getRedirectedArticleName();
+            }
 
             return revisions;
         } catch (IOException e) {
             throw new IOException("Failed to fetch data from Wikipedia API: " + e.getMessage());
         }
+    }
+
+    public String getRedirectedArticle() {
+        return redirectedArticle;
     }
 
     private boolean articleNameDoesNotExist(String jsonData) {
