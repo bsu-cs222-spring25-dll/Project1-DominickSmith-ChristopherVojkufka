@@ -13,7 +13,6 @@ public class UI {
     public void startProgram() throws IOException {
         try {
         String articleName = getArticleName();
-        checkValidArticle(articleName);
 
         JSONArray revisions = api.fetchWikipediaRevisions(articleName);
         checkRevisionsExist(revisions);
@@ -25,15 +24,6 @@ public class UI {
         printRevisions(revisions);
     } catch (IOException e) {
             System.err.println(e.getMessage());
-        }
-    }
-
-
-
-    private void checkValidArticle(String articleName) {
-        if (articleName == null || articleName.isEmpty()) {
-            System.err.println("Error: No article name provided or article name does not exist.");
-            System.exit(1); //Exit if no name is provided
         }
     }
 
