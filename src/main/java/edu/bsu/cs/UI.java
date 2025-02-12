@@ -9,8 +9,9 @@ public class UI {
     Scanner scanner = new Scanner(System.in);
     WikipediaAPI api = new WikipediaAPI();
 
-    public void start () throws Exception {
+    public void startProgram() throws Exception {
         String articleName = getArticleName();
+
         if(articleName == null || articleName.isEmpty()) {
             System.err.println("Error: No article name provided.");
             System.exit(1); //Exit if no name is provided
