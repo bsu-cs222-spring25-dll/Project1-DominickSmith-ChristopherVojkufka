@@ -15,3 +15,13 @@ This project features an establishing of an Wikipedia API and collects at most 2
 ## Suppressed Warnings:
 We have suppressed a warning inside WikipediaAPITest as well as WikipediaAPI because the method used is still functional, and we are unaware of suitable alternatives at the moment. The suppression is documented here to maintain clarity and prevent unnecessary warnings. 
 
+## Needed Build Instructions:
+Requires Java 11 or Higher.
+Requires Gradle.
+
+### Installation:
+Clone the respitory.
+
+Add clone url into indpendent project under gradle build.
+
+Every Test and the Program themselves relies on gradle!
