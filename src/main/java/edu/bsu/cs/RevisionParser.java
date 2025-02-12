@@ -14,17 +14,23 @@ public class RevisionParser {
         return user.getFirst().toString();
     }
 
-    public List<String> getRevisions(JSONArray revisions) {
+    public List<String> getRevisions(JSONArray revisions, int revisionsToDisplay) {
         List<String> revisionList = new ArrayList<>();
         int count = 1;
-        int maxRevisions = Math.min(revisions.size(), 21);
-        int startIndex = revisions.size() - maxRevisions;
 
-        for (int i = revisions.size() - 1; i >= startIndex; i--) {
+        for (int i = revisions.size() - 1; i >= revisions.size() - revisionsToDisplay; i--) {
             String time = JsonPath.read(revisions.get(i), "$..timestamp").toString();
             String user = JsonPath.read(revisions.get(i), "$..user").toString();
 
-            revisionList.add(count + "  " + time + "  " + user);
+            if (time == null) {
+                time = "N/A";
+            }
+
+            if (user == null) {
+                user = "Unknown";
+            }
+
+            revisionList.add(String.format("%d  %s  %s", count, time, user));
             count++;
         }
         return revisionList;

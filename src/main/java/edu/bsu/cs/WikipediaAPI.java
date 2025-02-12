@@ -13,10 +13,29 @@ import static edu.bsu.cs.JSONParser.readJsonAsString;
 
 public class WikipediaAPI {
 
+    private final WikipediaRedirectHandler redirectHandler = new WikipediaRedirectHandler();
+
     public JSONArray fetchWikipediaRevisions(String articleName) throws IOException {
+        try {
             URLConnection connection = connectToWikipedia(articleName);
             String jsonData = readJsonAsString(connection);
-            return extractRevisions(jsonData);
+
+            if(articleNameDoesNotExist(jsonData)) {
+                throw new IOException("Error: The Wikipedia article \"" + articleName + "\" does not exist");
+            }
+
+            JSONArray revisions = extractRevisions(jsonData);
+
+            redirectHandler.checkRedirection(jsonData);
+
+            return revisions;
+        } catch (IOException e) {
+            throw new IOException("Failed to fetch data from Wikipedia API: " + e.getMessage());
+        }
+    }
+
+    private boolean articleNameDoesNotExist(String jsonData) {
+        return jsonData.contains("\"missing\""); //detects if article is missing
     }
 
     public static String getEncodedUrl(String articleName) {
@@ -35,4 +54,4 @@ public class WikipediaAPI {
         connection.connect();
         return connection;
     }
-}
+    }

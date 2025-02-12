@@ -31,8 +31,10 @@ public class RevisionParserTest {
         JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions[*]");
 
         JSONArray revisions = (JSONArray) sampleRevisions.getFirst();
+        int totalRevisions = revisions.size();
+        int revisionsToDisplay = Math.min(totalRevisions, 21);
 
-        List<String> revisionList = parser.getRevisions(revisions);
+        List<String> revisionList = parser.getRevisions(revisions, revisionsToDisplay);
 
         assertEquals(4, revisionList.size());
         assertEquals("1  2023-09-02T15:05:04Z  Freefry\n", revisionList.get(0));
