@@ -26,8 +26,8 @@ public class WikipediaAPI {
             }
 
             JSONArray revisions = extractRevisions(jsonData);
-
             redirectHandler.checkRedirection(jsonData);
+
             if(redirectHandler.isRedirected()) {
                 redirectedArticle = redirectHandler.getRedirectedArticleName();
             }
