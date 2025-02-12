@@ -11,26 +11,30 @@ public class UI {
 
     public void startProgram() throws Exception {
         String articleName = getArticleName();
-
-        if(articleName == null || articleName.isEmpty()) {
-            System.err.println("Error: No article name provided.");
-            System.exit(1); //Exit if no name is provided
-        }
+        checkValidArticle(articleName);
 
         JSONArray revisions = api.fetchWikipediaRevisions(articleName);
-        if(revisions == null || revisions.isEmpty()) {
-            System.err.print("Error: No revisions found or invalid article.");
-            System.exit(1);
-        }
+        checkRevisionsExist(String.valueOf(revisions));
 
         printRevisions(revisions);
+    }
 
+    private void checkValidArticle(String articleName) {
+        if (articleName == null || articleName.isEmpty()) {
+            System.err.println("Error: No article name provided or article name does not exist.");
+            System.exit(1); //Exit if no name is provided
+        }
+    }
+
+    private void checkRevisionsExist(String revisions) {
+        if (revisions == null || revisions.isEmpty()) {
+            System.err.print("Error: No revisions found or exist.");
+            System.exit(1);
+        }
     }
 
     private void printRevisions(JSONArray revisions) {
         RevisionParser revisionParser = new RevisionParser();
-
-        System.out.println("Total revisions retrieved: " + revisions.size());
 
         List<String> parsedRevisions = revisionParser.getRevisions(revisions);
         for (String revision : parsedRevisions) {
