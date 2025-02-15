@@ -46,20 +46,4 @@ public class WikipediaAPI {
         return jsonData.contains("\"missing\""); //detects if article is missing
     }
 
-    public static String getEncodedUrl(String articleName) {
-        return "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(articleName, Charset.defaultCharset()) + "&rvprop=timestamp|user&rvlimit=21&redirects";
-        //this limit needs to be 21 for project
-    }
-
-    private static URLConnection connectToWikipedia(String articleName) throws IOException {
-        String encodedUrlString = getEncodedUrl(articleName);
-        @SuppressWarnings("deprecation")
-        URL url = new URL(encodedUrlString);
-        URLConnection connection = url.openConnection();
-        connection.setRequestProperty("User-Agent",
-                "CS222FirstProject/0.1 (christopher.vojkufka@bsu.edu)");
-        connection.connect();
-        return connection;
-    }
     }
