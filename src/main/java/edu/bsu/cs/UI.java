@@ -7,18 +7,18 @@ import java.util.Scanner;
 
 public class UI {
     Scanner scanner = new Scanner(System.in);
-    WikipediaAPI api = new WikipediaAPI();
     private final RevisionPrinter printer = new RevisionPrinter();
+    private final ArticleService articleService = new ArticleService();
 
     public void startProgram(){
         try {
         String articleName = getArticleName();
         ArticleValidator.validate(articleName);
 
-        JSONArray revisions = api.fetchWikipediaRevisions(articleName);
+        JSONArray revisions = articleService.fetchRevisions(articleName);
         checkRevisionsExist(revisions);
 
-        String redirectedArticle = api.getRedirectedArticle();
+        String redirectedArticle = articleService.getRedirectedArticle(articleName);
         if(redirectedArticle != null) {
             System.out.println("Redirected to " + redirectedArticle);
         }
@@ -30,6 +30,7 @@ public class UI {
             System.out.println("Error: No article name provided.");
         }
     }
+
 
     private void checkRevisionsExist(JSONArray revisions) {
         if (revisions == null || revisions.isEmpty()) {

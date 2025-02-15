@@ -3,23 +3,17 @@ package edu.bsu.cs;
 import net.minidev.json.JSONArray;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.net.URLEncoder;
 
 import static edu.bsu.cs.JSONParser.extractRevisions;
-import static edu.bsu.cs.JSONParser.readJsonAsString;
 
-public class WikipediaAPI {
+public class WikipediaRevisions {
 
     private final WikipediaRedirectHandler redirectHandler = new WikipediaRedirectHandler();
     private String redirectedArticle = null;
 
     public JSONArray fetchWikipediaRevisions(String articleName) throws IOException {
         try {
-            URLConnection connection = connectToWikipedia(articleName);
-            String jsonData = readJsonAsString(connection);
+            String jsonData = WikipediaFetcher.fetchJsonData(articleName);
 
             if(articleNameDoesNotExist(jsonData)) {
                 throw new IOException("Error: The Wikipedia article \"" + articleName + "\" does not exist");

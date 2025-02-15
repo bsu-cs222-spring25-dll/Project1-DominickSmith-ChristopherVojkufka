@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class WikipediaAPITest {
 
-    WikipediaAPI api = new WikipediaAPI();
+    WikipediaRevisions wikiRevisions = new WikipediaRevisions();
 
 
     @Test
@@ -26,7 +26,7 @@ public class WikipediaAPITest {
 
     @Test
     void testFetchWikipediaRevisionsExist() throws Exception {
-        JSONArray revisions = api.fetchWikipediaRevisions("Rick Astley");
+        JSONArray revisions = wikiRevisions.fetchWikipediaRevisions("Rick Astley");
         assertNotNull(revisions);
         assertFalse(revisions.isEmpty());
     }
@@ -34,7 +34,7 @@ public class WikipediaAPITest {
     @Test
     void testFetchWikipediaRevisionsNonExistent() {
         IOException exception = assertThrows(IOException.class, () -> {
-            api.fetchWikipediaRevisions("NonExistentArticle123456");
+            wikiRevisions.fetchWikipediaRevisions("NonExistentArticle123456");
         });
 
         assertTrue(exception.getMessage().contains("does not exist"));
