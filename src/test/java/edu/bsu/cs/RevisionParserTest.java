@@ -30,16 +30,15 @@ public class RevisionParserTest {
         String jsonContent = new String(Files.readAllBytes(Paths.get("src/test/resources/sample.json")));
         JSONArray sampleRevisions = JsonPath.read(jsonContent, "$.query.pages.*.revisions[*]");
 
-        JSONArray revisions = (JSONArray) sampleRevisions.getFirst();
-        int totalRevisions = revisions.size();
-        int revisionsToDisplay = Math.min(totalRevisions, 21);
+        int totalRevisions = sampleRevisions.size();
+        int revisionsToDisplay = Math.min(totalRevisions, 4);
 
-        List<String> revisionList = parser.getRevisions(revisions, revisionsToDisplay);
+        List<String> revisionList = parser.getRevisions(sampleRevisions, revisionsToDisplay);
 
         assertEquals(4, revisionList.size());
-        assertEquals("1  2023-09-02T15:05:04Z  Freefry\n", revisionList.get(0));
-        assertEquals("2  2023-09-02T15:06:03Z  Freefry\n", revisionList.get(1));
-        assertEquals("3  2023-09-07T17:21:48Z  ModernDayTrilobite\n", revisionList.get(2));
-        assertEquals("4  2023-09-07T18:34:43Z  Miklogfeather\n", revisionList.get(3));
+        assertEquals("1  2023-09-02T15:05:04Z  Freefry", revisionList.get(0));
+        assertEquals("2  2023-09-02T15:06:03Z  Freefry", revisionList.get(1));
+        assertEquals("3  2023-09-07T17:21:48Z  ModernDayTrilobite", revisionList.get(2));
+        assertEquals("4  2023-09-07T18:34:43Z  Miklogfeather", revisionList.get(3));
     }
 }
