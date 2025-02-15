@@ -42,7 +42,7 @@ public class WikipediaAPITest {
 
     @Test
     void testRedirectHandling() {
-
+        WikipediaRedirectHandler redirectHandler = new WikipediaRedirectHandler();
     }
 
 }
