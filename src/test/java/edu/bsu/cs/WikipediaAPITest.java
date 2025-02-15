@@ -40,5 +40,10 @@ public class WikipediaAPITest {
         assertTrue(exception.getMessage().contains("does not exist"));
     }
 
+    @Test
+    void testRedirectHandling() {
+
+    }
+
 }
 
