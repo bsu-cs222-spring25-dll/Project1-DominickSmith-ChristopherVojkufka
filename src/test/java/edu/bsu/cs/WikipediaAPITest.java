@@ -44,7 +44,19 @@ public class WikipediaAPITest {
     void testRedirectHandling() {
         WikipediaRedirectHandler redirectHandler = new WikipediaRedirectHandler();
 
-        String jsonData = "";
+        String jsonData = """
+            {
+                "query": {
+                    "redirects": [
+                        { "from": "OldTitle", "to": "NewTitle" }
+                    ]
+                }
+            }          \s
+           \s""";
+        redirectHandler.checkRedirection(jsonData);
+
+        assertTrue(redirectHandler.isRedirected());
+        assertEquals("NewTitle", redirectHandler.getRedirectedArticleName());
     }
 
 }
