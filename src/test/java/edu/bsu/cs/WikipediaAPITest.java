@@ -4,10 +4,14 @@ import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WikipediaAPITest {
+
+    WikipediaAPI api = new WikipediaAPI();
+
 
     @Test
     void testWikipediaApiIsReachable() throws Exception {
@@ -21,11 +25,19 @@ public class WikipediaAPITest {
     }
 
     @Test
-    void testFetchWikipediaRevisions() throws Exception {
-        WikipediaAPI api = new WikipediaAPI();
-        JSONArray jsonData = api.fetchWikipediaRevisions("Rick Astley");
-        assertNotNull(jsonData, "API should return JSON data.");
-        assertFalse(jsonData.isEmpty(), "JSON should contain revision data.");
+    void testFetchWikipediaRevisionsExist() throws Exception {
+        JSONArray revisions = api.fetchWikipediaRevisions("Rick Astley");
+        assertNotNull(revisions);
+        assertFalse(revisions.isEmpty());
+    }
+
+    @Test
+    void testFetchWikipediaRevisionsNonExistent() {
+        IOException exception = assertThrows(IOException.class, () -> {
+            api.fetchWikipediaRevisions("NonExistentArticle123456");
+        });
+
+        assertTrue(exception.getMessage().contains("does not exist"));
     }
 
 }
