@@ -1,6 +1,7 @@
 package edu.bsu.cs;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 import net.minidev.json.JSONArray;
 
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GUI extends Application {
@@ -67,19 +70,43 @@ public class GUI extends Application {
             return;
         }
 
-        try {
-            JSONArray revisions = articleService.fetchRevisions(articleName);
+        disableInteraction(true);
 
-            if(revisions.isEmpty()) {
-                showError("No revisions found for this article.");
-                return;
+        new Thread(() -> {
+            try {
+                JSONArray revisions = articleService.fetchRevisions(articleName);
+
+                if (revisions.isEmpty()) {
+                    Platform.runLater(() -> showError("No revisions found for this article or article does not exist."));
+                    return;
+                }
+
+                String redirectedArticle = articleService.getRedirectedArticle(articleName);
+
+                List<String> parsedRevisions = revisionParser.getRevisions(revisions, 21);
+                List<String> finalDisplayList = new ArrayList<>();
+
+                if (redirectedArticle != null) {
+                    finalDisplayList.add("Redirected to: " + redirectedArticle);
+                }
+
+                finalDisplayList.addAll(parsedRevisions);
+
+                Platform.runLater(() -> revisionsList.getItems().setAll(finalDisplayList));
+
+            } catch (IOException e) {
+                Platform.runLater(() -> showError("Failed to connect to Wikipedia: " + e.getMessage()));
+            } finally {
+                Platform.runLater(() -> disableInteraction(false));
             }
+        }).start();
+    }
 
-            List<String> parsedRevisions = revisionParser.getRevisions(revisions, 21);
-            revisionsList.getItems().setAll(parsedRevisions);
-        } catch (IOException e) {
-            showError("Failed to fetch data: " + e.getMessage());
-        }
+
+    private void disableInteraction(boolean disabledStatus) {
+        articleInput.setDisable(disabledStatus);
+        searchButton.setDisable(disabledStatus);
+
     }
 
     private void showError(String message) {
