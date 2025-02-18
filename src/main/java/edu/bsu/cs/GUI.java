@@ -1,22 +1,15 @@
 package edu.bsu.cs;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import net.minidev.json.JSONArray;
 
-import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GUI extends Application {
 
@@ -26,8 +19,7 @@ public class GUI extends Application {
     private Button searchButton;
     private ListView<String> revisionsList;
 
-    private final ArticleService articleService = new ArticleService();
-    private final RevisionParser revisionParser = new RevisionParser();
+    private final WikiGUIController wikipediaController = new WikiGUIController(this);
 
     public static void main(String[] args) {
         launch(args);
@@ -43,7 +35,7 @@ public class GUI extends Application {
         articleInput.setPromptText("Enter Wikipedia Article Name...");
 
         searchButton = new Button("Search");
-        searchButton.setOnAction(e -> fetchRevisions());
+        searchButton.setOnAction(e -> wikipediaController.fetchRevisions(articleInput.getText().trim()));
 
         //initialize list view
         revisionsList = new ListView<>();
@@ -62,58 +54,18 @@ public class GUI extends Application {
         window.show();
     }
 
-    private void fetchRevisions() {
-        String articleName = articleInput.getText().trim();
-
-        if(articleName.isEmpty()) {
-            showError("Please enter an article name.");
-            return;
-        }
-
-        disableInteraction(true);
-
-        new Thread(() -> {
-            try {
-                JSONArray revisions = articleService.fetchRevisions(articleName);
-
-                if (revisions.isEmpty()) {
-                    Platform.runLater(() -> showError("No revisions found for this article or article does not exist."));
-                    return;
-                }
-
-                String redirectedArticle = articleService.getRedirectedArticle(articleName);
-
-                List<String> parsedRevisions = revisionParser.getRevisions(revisions, 21);
-                List<String> finalDisplayList = new ArrayList<>();
-
-                if (redirectedArticle != null) {
-                    finalDisplayList.add("Redirected to: " + redirectedArticle);
-                }
-
-                finalDisplayList.addAll(parsedRevisions);
-
-                Platform.runLater(() -> revisionsList.getItems().setAll(finalDisplayList));
-
-            } catch (IOException e) {
-                Platform.runLater(() -> showError("Failed to connect to Wikipedia: " + e.getMessage()));
-            } finally {
-                Platform.runLater(() -> disableInteraction(false));
-            }
-        }).start();
+    public void setRevisionsList(String[] revisions) {
+        revisionsList.getItems().setAll(revisions);
     }
 
 
-    private void disableInteraction(boolean disabledStatus) {
+    void disableInteraction(boolean disabledStatus) {
         articleInput.setDisable(disabledStatus);
         searchButton.setDisable(disabledStatus);
 
     }
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    void showError(String message) {
+        DialogService.showError(message);
     }
 }
