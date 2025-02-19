@@ -68,7 +68,7 @@ public class WikiGUIControllerTest {
     }
 
     @Test
-    void testFetchRevisionsEmptyInputShowsError() {
+    void testFetchRevisions_EmptyInput_ShowsError() {
         controller.fetchRevisions("");
 
         verify(mockGui).showError("Please enter an article name.");
@@ -82,10 +82,43 @@ public class WikiGUIControllerTest {
 
         Platform.runLater(() -> {});
         try {
-            Thread.sleep(100); // Small delay to ensure UI updates
+            Thread.sleep(100);
         } catch (InterruptedException ignored) {}
 
         verify(mockGui).showError("No revisions found for this article or article does not exist.");
+    }
+
+    @Test
+    void testFetchRevisions_DisplaysRevisions() throws IOException {
+        JSONArray sampleRevisions = new JSONArray();
+        sampleRevisions.add(List.of(
+                new net.minidev.json.JSONObject() {{
+                    put("user", "Miklogfeather");
+                    put("timestamp", "2023-09-07T18:34:43Z");
+                }},
+                new net.minidev.json.JSONObject() {{
+                    put("user", "ModernDayTrilobite");
+                    put("timestamp", "2023-09-07T17:21:48Z");
+                }}
+        ));
+
+        when(mockArticleService.fetchRevisions("Frank Zappa")).thenReturn(sampleRevisions);
+        when(mockRevisionParser.getRevisions(sampleRevisions, 21)).thenReturn(List.of(
+                "User: Miklogfeather, Timestamp: 2023-09-07T18:34:43Z",
+                "User: ModernDayTrilobite, Timestamp: 2023-09-07T17:21:48Z"
+        ));
+
+        controller.fetchRevisions("Frank Zappa");
+
+        Platform.runLater(() -> {});
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {}
+
+        verify(mockGui).setRevisionsList(new String[]{
+                "User: Miklogfeather, Timestamp: 2023-09-07T18:34:43Z",
+                "User: ModernDayTrilobite, Timestamp: 2023-09-07T17:21:48Z"
+        });
     }
 
 
