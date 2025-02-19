@@ -15,6 +15,7 @@ dependencies {
     testImplementation("com.jayway.jsonpath:json-path:2.9.0")
     testImplementation("net.minidev:json-smart:2.4.10")
     testImplementation("ch.qos.logback:logback-classic:1.4.14")
+    testImplementation("org.mockito:mockito-core:5.5.0")
     implementation(platform("org.junit:junit-bom:5.9.1"))
     implementation("org.junit.jupiter:junit-jupiter")
     implementation("com.jayway.jsonpath:json-path:2.9.0")
