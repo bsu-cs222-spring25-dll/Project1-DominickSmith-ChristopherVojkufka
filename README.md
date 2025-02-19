@@ -12,8 +12,11 @@ Paired Programming is a large part of this project.
 ## Features:
 This project features an establishing of an Wikipedia API and collects at most 21 most revisions in reverse chronological order from an article name that is provided to the program from user input. The data is formatted in numerical order in order of count, timestamp, author.
 
+##How to Use:
+This project has two main entry points to start the program. These include the main class and the GUI class, each presenting their own unique systems to the user.
+
 ## Suppressed Warnings:
-We have suppressed a warning inside WikipediaAPITest as well as WikipediaAPI because the method used is still functional, and we are unaware of suitable alternatives at the moment. The suppression is documented here to maintain clarity and prevent unnecessary warnings. 
+We have suppressed a warning inside WikipediaAPITest as well as WikipediaFetcher because the method used is still functional, and we are unaware of suitable alternatives at the moment. The suppression is documented here to maintain clarity and prevent unnecessary warnings. 
 
 ## Needed Build Instructions:
 Requires Java 11 or Higher.
@@ -25,3 +28,5 @@ Clone the respitory.
 Add clone url into indpendent project under gradle build.
 
 Every Test and the Program themselves relies on gradle!
+
+GUI is implemented using javafx.
