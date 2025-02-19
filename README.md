@@ -12,7 +12,7 @@ Paired Programming is a large part of this project.
 ## Features:
 This project features an establishing of an Wikipedia API and collects at most 21 most revisions in reverse chronological order from an article name that is provided to the program from user input. The data is formatted in numerical order in order of count, timestamp, author.
 
-##How to Use:
+## How to Use:
 This project has two main entry points to start the program. These include the main class and the GUI class, each presenting their own unique systems to the user.
 
 ## Suppressed Warnings:
