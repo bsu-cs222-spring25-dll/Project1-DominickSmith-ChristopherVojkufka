@@ -150,4 +150,20 @@ public class WikiGUIControllerTest {
         });
     }
 
+    @Test
+    void testFetchRevisions_ConnectionError_ShowsError() throws IOException {
+        when(mockArticleService.fetchRevisions("NetworkFailureArticle"))
+                .thenThrow(new IOException("Network error occurred"));
+
+        controller.fetchRevisions("NetworkFailureArticle");
+
+        Platform.runLater(() -> {});
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {}
+
+        verify(mockGui).showError("Failed to connect to Wikipedia: Network error occurred");
+    }
+
+
 }
