@@ -121,5 +121,33 @@ public class WikiGUIControllerTest {
         });
     }
 
+    @Test
+    void testFetchRevisions_RedirectedArticle() throws IOException {
+        JSONArray sampleRevisions = new JSONArray();
+        sampleRevisions.add(List.of(
+                new net.minidev.json.JSONObject() {{
+                    put("user", "Freefry");
+                    put("timestamp", "2023-09-02T15:06:03Z");
+                }}
+        ));
+
+        when(mockArticleService.fetchRevisions("Zappa")).thenReturn(sampleRevisions);
+        when(mockArticleService.getRedirectedArticle("Zappa")).thenReturn("Frank Zappa");
+        when(mockRevisionParser.getRevisions(sampleRevisions, 21)).thenReturn(List.of(
+                "User: Freefry, Timestamp: 2023-09-02T15:06:03Z"
+        ));
+
+        controller.fetchRevisions("Zappa");
+
+        Platform.runLater(() -> {});
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {}
+
+        verify(mockGui).setRevisionsList(new String[]{
+                "Redirected to: Frank Zappa",
+                "User: Freefry, Timestamp: 2023-09-02T15:06:03Z"
+        });
+    }
 
 }
